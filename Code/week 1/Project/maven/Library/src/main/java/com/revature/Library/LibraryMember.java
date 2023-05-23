@@ -1,22 +1,23 @@
 package com.revature.Library;
+import java.util.HashSet;
 
 public class LibraryMember {
     String name;
     int id;
     int numBooks;
-    Book[] books;
+    HashSet<Book> books;
     public LibraryMember(String name, int id) {
         this.name = name;
         this.id = id;
         this.numBooks = 0;
-        this.books = new Book[3];
+
     }
-//    public void addBook(Book book) {
-//        if (numBooks < 3) {
-//            books[numBooks] = book;
-//            numBooks++;
-//        }
-//    }
+    public void setBook(Book book) {
+        books.add(book);
+    }
+    public HashSet<Book> getBooks() {
+        return this.books;
+    }
 //    public void printBooks() {
 //        System.out.println("Books borrowed by " + name + ":");
 //        for (int i = 0; i < numBooks; i++) {
