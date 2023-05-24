@@ -18,7 +18,8 @@ public class Main {
         do {
             println("1.) Do you want to add a book, 2.) remove a book, 3.) display all books, 4.) go to Library Member section");
             int selection = scanner.nextInt();
-            scanner.nextLine();
+            scanner.nextLine(); // to prevent scanner from having any /n from reading ints
+            // adding book
             while (selection == 1) {
                 Book newBook = new Book();
                 println("");
@@ -44,8 +45,9 @@ public class Main {
                 }
 
             }
+            // removing book
             if (selection == 2) {
-                print("What book you want to remove. Title: ");
+                print("What book you want to remove. Case Sensitive. Title: ");
                 String Title = scanner.nextLine();
                 print("Confirmation, what is the publication year: ");
                 int pubYar = scanner.nextInt();
@@ -53,6 +55,7 @@ public class Main {
                 println(library.removeBook(Title,pubYar));
 
             }
+            // prints book
             if (selection == 3) {
                 library.printBooks();
             }
