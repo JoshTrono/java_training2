@@ -1,4 +1,4 @@
-package com.revature.tests;
+import com.revature.tests.*;
 import org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
