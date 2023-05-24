@@ -14,7 +14,7 @@ public class Main {
         library.addBook(book1);
         library.addBook(book2);
         library.printBooks();
-
+        String continue1 = "yes";
         do {
             println("1.) Do you want to add a book, 2.) remove a book, 3.) display all books, 4.) go to Library Member section");
             int selection = scanner.nextInt();
@@ -30,10 +30,13 @@ public class Main {
 
                 print("Publication Year: ");
                 newBook.setPublicationYear(scanner.nextInt());
-
+                println("-----------");
+                println("");
                 newBook.displayBook();
-                print("Is this correct? Y/N");
-                if (scanner.nextLine().toLowerCase() == "y") {
+                print("Is this correct? Y/N ");
+                scanner.nextLine();
+                String value = scanner.nextLine();
+                if (value.equals("y")) {
                     library.addBook(newBook);
                     break;
                 } else {
@@ -41,11 +44,25 @@ public class Main {
                 }
 
             }
+            if (selection == 2) {
+                print("What book you want to remove. Title: ");
+                String Title = scanner.nextLine();
+                print("Confirmation, what is the publication year: ");
+                int pubYar = scanner.nextInt();
+                scanner.nextLine();
+                println(library.removeBook(Title,pubYar));
+
+            }
+            if (selection == 3) {
+                library.printBooks();
+            }
 
 
 
             println("Continue? Y/N");
-        } while ((scanner.nextLine().toLowerCase() == "yes") || (scanner.nextLine().toLowerCase() == "y"));
+            continue1 = scanner.nextLine();
+            continue1 = continue1.toLowerCase();
+        } while ((continue1.equals("yes")) || (continue1.equals("y")));
 
     }
 
