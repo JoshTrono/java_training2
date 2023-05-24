@@ -1,6 +1,7 @@
 package com.revature.controller;
 
 import com.revature.Library.Book;
+import com.revature.Library.Library;
 import com.revature.LibraryApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -14,12 +15,17 @@ import com.revature.Library.Library.*;
 @RequestMapping("/library")
 public class LibraryController {
 
+    public static Library library = new Library();
+    public static Book book1 = new Book("Lord of the Rings", "J. R. R. Tolkien", 1954);
+    public static Book book2 = new Book("Science Tectbook", "Scientist", 1998);
+
+
     @PostMapping("/addBook")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public String addBook(@RequestParam String title, @RequestParam String authorName, @RequestParam int publicationYear) {
         Book book = new Book(title, authorName, publicationYear);
-        LibraryApplication.library.addBook(book);
+        library.addBook(book);
         return "Book got added";
     }
 
@@ -27,12 +33,12 @@ public class LibraryController {
     @ResponseBody
     public ArrayList<Book> displayBooks() {
 
-        return LibraryApplication.library.printBooks();
+        return library.printBooks();
     }
 
     @DeleteMapping("/removeBook")
     @ResponseBody
     public String removeBook(@RequestParam String title, @RequestParam int publicationYear) {
-        return LibraryApplication.library.removeBook(title, publicationYear);
+        return library.removeBook(title, publicationYear);
     }
 }
