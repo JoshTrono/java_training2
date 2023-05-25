@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Library {
 
+
     ArrayList<Book> books = new ArrayList<>();
     ArrayList<LibraryMember> members = new ArrayList<>();
 
@@ -13,11 +14,12 @@ public class Library {
     public void addMember(LibraryMember member) {
         members.add(member);
     }
-    public void printBooks() {
-        System.out.println("Books in the library:");
-        for (Book book : books) {
-            System.out.println(book.getTitle() + ", Author: " + book.getAuthor() + ", Publication Year: " + book.getPublicationYear());
-        }
+    public ArrayList<Book> printBooks() {
+//        System.out.println("Books in the library:");
+//        for (Book book : books) {
+//            System.out.println(book.getTitle() + ", Author: " + book.getAuthor() + ", Publication Year: " + book.getPublicationYear());
+//        }
+        return books;
     }
     public String removeBook(String title, int pubYear) {
         for (Book book : books) {
