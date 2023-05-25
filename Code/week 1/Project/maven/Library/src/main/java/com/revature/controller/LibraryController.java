@@ -2,6 +2,7 @@ package com.revature.controller;
 
 import com.revature.Library.Book;
 import com.revature.Library.Library;
+import com.revature.Library.LibraryMember;
 import com.revature.LibraryApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -40,5 +41,19 @@ public class LibraryController {
     @ResponseBody
     public String removeBook(@RequestParam String title, @RequestParam int publicationYear) {
         return library.removeBook(title, publicationYear);
+    }
+    @PostMapping("/addMember")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public String addMember(@RequestParam String name, @RequestParam String address, @RequestParam int id) {
+        LibraryMember member = new LibraryMember(name, address, id);
+        library.addMember(member);
+        return "Member got added";
+    }
+    @GetMapping("/displayMembers")
+    @ResponseBody
+    public ArrayList<LibraryMember> displayMembers() {
+
+        return library.printMembers();
     }
 }

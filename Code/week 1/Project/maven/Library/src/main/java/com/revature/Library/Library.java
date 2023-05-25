@@ -6,6 +6,7 @@ public class Library {
 
 
     ArrayList<Book> books = new ArrayList<>();
+
     ArrayList<LibraryMember> members = new ArrayList<>();
 
     public void addBook(Book book) {
@@ -31,6 +32,10 @@ public class Library {
             }
         }
         return ("No books inside this library");
+    }
+
+    public ArrayList<LibraryMember> printMembers() {
+        return members;
     }
 //    public void printMembers() {
 //        System.out.println("Members of the library:");
