@@ -18,6 +18,9 @@ public class Task {
     @Column(name = "status", nullable = false)
     private String status;
 
+    @PrimaryKeyJoinColumn(name = "user_id")
+    private Long userId;
+
     public Task() {
     }
 
