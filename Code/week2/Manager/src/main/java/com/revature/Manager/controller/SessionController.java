@@ -28,6 +28,12 @@ public class SessionController {
         }
     }
 
+    @GetMapping("/auth")
+    @ResponseBody
+    public String validateToken(@RequestParam String token) {
+        return authenticationService.validateToken(token);
+    }
+
     @PostMapping("/register")
     @ResponseBody
     public String register(@RequestParam String username, @RequestParam String password, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String role) {
