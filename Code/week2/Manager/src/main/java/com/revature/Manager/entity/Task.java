@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 public class Task {
     @Id
     @SequenceGenerator(name = "tasks_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tasks_id_seq")
     private Long id;
     @Column(name = "task_name", nullable = false)
     private String taskName;
@@ -24,6 +25,17 @@ public class Task {
     public Task() {
     }
 
+    public Task(String taskName, String description, String dueDate, String status, Long userId) {
+        this.taskName = taskName;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.status = status;
+        this.userId = userId;
+    }
+
+
+
+
     @Override
     public String toString() {
         return "Task{" +
@@ -34,6 +46,8 @@ public class Task {
                 ", status='" + status + '\'' +
                 '}';
     }
+
+
 
     public Long getId() {
         return id;
