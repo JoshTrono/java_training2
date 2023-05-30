@@ -4,18 +4,47 @@ import java.util.HashSet;
 public class LibraryMember {
     String name;
     int id;
-    int numBooks;
+
+    String address;
+
     HashSet<Book> books;
-    public LibraryMember(String name, int id) {
+    public LibraryMember(String name, String address, int id) {
         this.name = name;
         this.id = id;
-        this.numBooks = 0;
+        this.address = address;
 
     }
-    public void setBook(Book book) {
-        books.add(book);
+
+    @Override
+    public String toString() {
+        return "LibraryMember{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", address='" + address + '\'' +
+                '}';
     }
-    public HashSet<Book> getBooks() {
-        return this.books;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

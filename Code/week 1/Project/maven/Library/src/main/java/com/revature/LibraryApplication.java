@@ -9,8 +9,6 @@ import com.revature.Library.Book;
 public class LibraryApplication {
 
 
-
-
     public static void main(String[] args) {
         LibraryController.library.addBook(LibraryController.book1);
         LibraryController.library.addBook(LibraryController.book2);
