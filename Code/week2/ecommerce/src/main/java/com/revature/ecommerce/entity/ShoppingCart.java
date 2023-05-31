@@ -5,13 +5,14 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "shopping_carts")
 public class ShoppingCart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "shoppingCart")
+    @OneToMany
     private List<Product> products;
 
     @OneToOne

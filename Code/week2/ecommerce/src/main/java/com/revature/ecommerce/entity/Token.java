@@ -3,6 +3,7 @@ package com.revature.ecommerce.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "tokens")
 public class Token {
     @Id
     @SequenceGenerator(name = "tokens_id_seq", allocationSize = 1)

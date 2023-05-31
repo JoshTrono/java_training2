@@ -20,5 +20,4 @@ public class Order {
     @JoinColumn(name = "shoppingCart_id")
     private ShoppingCart shoppingCart;
 
-
 }
