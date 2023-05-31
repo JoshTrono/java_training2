@@ -8,6 +8,8 @@ import com.revature.ecommerce.repository.ShoppingCartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ShoppingService {
 
@@ -30,7 +32,13 @@ public class ShoppingService {
         ShoppingCart shoppingCart = shoppingCartRepository.findById(shoppingCartId).get();
         Product product = productRepository.findById(productId).get();
         shoppingCart.getProducts().add(product);
+        shoppingCart.setProducts(shoppingCart.getProducts());
         shoppingCartRepository.save(shoppingCart);
         return "adding product to cart";
+    }
+
+    public List<Product> getCart(Long shoppingCartId) {
+        ShoppingCart shoppingCart = shoppingCartRepository.findById(shoppingCartId).get();
+        return shoppingCart.getProducts();
     }
 }
