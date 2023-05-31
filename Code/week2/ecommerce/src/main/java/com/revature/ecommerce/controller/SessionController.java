@@ -35,8 +35,8 @@ public class SessionController {
 
     @PostMapping("/register")
     @ResponseBody
-    public String register(@RequestParam String username, @RequestParam String password, @RequestParam String firstName, @RequestParam String lastName) {
-        userRepository.save(new User(username, password, firstName, lastName));
+    public String register(@RequestParam String username, @RequestParam String password, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String role) {
+        userRepository.save(new User(username, password, firstName, lastName, role));
         return "registered";
     }
 }

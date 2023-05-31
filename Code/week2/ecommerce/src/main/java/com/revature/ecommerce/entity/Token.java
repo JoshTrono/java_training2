@@ -3,6 +3,7 @@ package com.revature.ecommerce.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "tokens")
 public class Token {
     @Id
     @SequenceGenerator(name = "tokens_id_seq", allocationSize = 1)
@@ -12,9 +13,14 @@ public class Token {
     @Column(nullable = false)
     private String token;
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Token(String token) {
+
+    public Token(String token, User user) {
         this.token = token;
+        this.user = user;
     }
 
     public Long getId() {

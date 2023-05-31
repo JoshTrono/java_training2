@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.revature.ecommerce.entity.Token;
+import com.revature.ecommerce.entity.User;
 import com.revature.ecommerce.repository.TokenRepository;
 import com.revature.ecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +31,24 @@ public class AuthenticationService {
     }
 
         public String login(String username, String password, Long id, String role) {
-            String jwt = JWT.create()
-                    .withClaim("username", username)
-                    .withClaim("password", password)
-                    .withClaim("id", id)
-                    .withClaim("role", role)
-                    .sign(algorithm);
+            User user = userRepository.findByUsernameAndPassword(username, password);
+            if (user != null) {
+                String jwt = JWT.create()
+                        .withClaim("username", username)
+                        .withClaim("password", password)
+                        .withClaim("id", id)
+                        .withClaim("role", role)
+                        .sign(algorithm);
 
-            tokenRepository.save(new Token(jwt));
-            return jwt;
+                tokenRepository.save(new Token(jwt, user));
+                return jwt;
+
+            }
+            return "login failed";
+        }
+
+        public User getUserbyId(Long id) {
+            return userRepository.findById(id).get();
         }
 
         public String logout() {
@@ -49,20 +59,26 @@ public class AuthenticationService {
             return "register";
         }
 
-        public String validateToken(String token) {
+        public String validateToken(String token2) {
+            String token = token2.split(" ")[1];
             List<Token> tokens = new ArrayList<>();
             tokenRepository.findAll().forEach(tokens::add);
             for (Token t : tokens) {
                 if (t.getToken().equals(token)) {
                     DecodedJWT jwt = decode(token);
-                    Long id =jwt.getClaims().get("id").asLong();
-                    String role = jwt.getClaims().get("role").asString();
-                    userRepository.findById(t.getId());
-                    return String.format("valid %s, Id %d ,role %s", t.getToken(), id, role);
+
+
+                    return String.format("valid");
                 }
             }
             return "invalid";
         }
+        public Long getUserId(String token) {
+            DecodedJWT jwt = decode(token);
+            return jwt.getClaim("id").asLong();
+        }
+
+
         private DecodedJWT decode(String token) {
             return JWT.require(algorithm).build().verify(token);
         }
