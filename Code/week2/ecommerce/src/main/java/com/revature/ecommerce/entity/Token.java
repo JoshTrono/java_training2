@@ -12,9 +12,14 @@ public class Token {
     @Column(nullable = false)
     private String token;
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Token(String token) {
+
+    public Token(String token, User user) {
         this.token = token;
+        this.user = user;
     }
 
     public Long getId() {

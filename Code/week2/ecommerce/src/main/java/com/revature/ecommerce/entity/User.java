@@ -25,14 +25,24 @@ public class User {
     @Column(name= "role", nullable = false)
     private String role;
 
+    @OneToOne(mappedBy = "user")
+    private ShoppingCart shoppingCart;
+
+    @OneToOne(mappedBy = "user")
+    private Token token;
+
+    @OneToOne(mappedBy = "user")
+    private Order order;
+
     public User() {
     }
 
-    public User(String username, String password, String firstName, String lastName) {
+    public User(String username, String password, String firstName, String lastName, String role) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.role = role;
     }
 
     public Long getId() {

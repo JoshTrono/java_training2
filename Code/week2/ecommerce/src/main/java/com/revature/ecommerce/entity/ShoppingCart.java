@@ -11,6 +11,13 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
+    @OneToMany(mappedBy = "shoppingCart")
     private List<Product> products;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToOne(mappedBy = "shoppingCart")
+    private Order order;
 }

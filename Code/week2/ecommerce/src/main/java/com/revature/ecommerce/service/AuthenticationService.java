@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.revature.ecommerce.entity.Token;
+import com.revature.ecommerce.entity.User;
 import com.revature.ecommerce.repository.TokenRepository;
 import com.revature.ecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +31,20 @@ public class AuthenticationService {
     }
 
         public String login(String username, String password, Long id, String role) {
-            String jwt = JWT.create()
-                    .withClaim("username", username)
-                    .withClaim("password", password)
-                    .withClaim("id", id)
-                    .withClaim("role", role)
-                    .sign(algorithm);
+            User user = userRepository.findByUsernameAndPassword(username, password);
+            if (user != null) {
+                String jwt = JWT.create()
+                        .withClaim("username", username)
+                        .withClaim("password", password)
+                        .withClaim("id", id)
+                        .withClaim("role", role)
+                        .sign(algorithm);
 
-            tokenRepository.save(new Token(jwt));
-            return jwt;
+                tokenRepository.save(new Token(jwt, user));
+                return jwt;
+
+            }
+            return "login failed";
         }
 
         public String logout() {
