@@ -21,4 +21,36 @@ public class ShoppingCart {
 
     @OneToOne(mappedBy = "shoppingCart")
     private Order order;
+
+    public ShoppingCart(User user) {
+        this.user = user;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Long getId() {
+        return id;
+    }
 }
