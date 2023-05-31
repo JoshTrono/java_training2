@@ -22,6 +22,10 @@ public class ShoppingCart {
     @OneToOne(mappedBy = "shoppingCart")
     private Order order;
 
+    private int quantity;
+    public ShoppingCart() {
+    }
+
     public ShoppingCart(User user) {
         this.user = user;
     }

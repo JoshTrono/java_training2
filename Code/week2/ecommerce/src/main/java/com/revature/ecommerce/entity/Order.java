@@ -1,5 +1,6 @@
 package com.revature.ecommerce.entity;
 
+import com.revature.ecommerce.service.OrderService;
 import jakarta.persistence.*;
 
 @Entity
@@ -20,4 +21,27 @@ public class Order {
     @JoinColumn(name = "shoppingCart_id")
     private ShoppingCart shoppingCart;
 
+    public Order(User user, ShoppingCart shoppingCart) {
+        this.user = user;
+        this.shoppingCart = shoppingCart;
+    }
+
+    public Order() {
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
+    }
 }

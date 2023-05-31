@@ -1,5 +1,6 @@
 package com.revature.ecommerce.controller;
 
+import com.revature.ecommerce.entity.Product;
 import com.revature.ecommerce.entity.User;
 import com.revature.ecommerce.service.AuthenticationService;
 import com.revature.ecommerce.service.ShoppingService;
@@ -7,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
-@RequestMapping("/shoppingcart")
+@RequestMapping("/cart")
 public class ShoppingCartController {
 
 
@@ -37,7 +40,15 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/add")
+    @ResponseBody
     public String addProductToCart(@RequestParam Long productId, @RequestParam Long shoppingCartId) {
+        //todo check if product exists in cart already and if so, increment quantity
+
         return shoppingCartService.addProductToCart(productId, shoppingCartId);
+    }
+    @GetMapping("/get")
+    @ResponseBody
+    public List<Product> getCart(@RequestParam Long shoppingCartId) {
+        return shoppingCartService.getCart(shoppingCartId);
     }
 }
