@@ -32,6 +32,9 @@ public class User {
     @OneToOne(mappedBy = "follower")
     private Follow follower;
 
+    public User() {
+    }
+
     public User(@NotNull(message = "Username cannot be null") String username, @NotNull(message = "Password cannot be null") String password, @NotNull(message = "Email cannot be null") String email) {
         this.username = username;
         this.password = password;

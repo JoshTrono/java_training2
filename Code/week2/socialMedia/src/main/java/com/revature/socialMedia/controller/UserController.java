@@ -4,10 +4,7 @@ import com.revature.socialMedia.entity.User;
 import com.revature.socialMedia.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/users")
@@ -20,8 +17,13 @@ public class UserController {
     @ResponseBody
     public User registerUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
         return (userService.registerUser(username, password, email));
+    }
 
-
+    @GetMapping("/validate")
+    @ResponseBody
+    public boolean validatePassword(@RequestParam String username, @RequestParam String rawPassword) {
+        // todo actually add some validation and return the token instead of boolean
+        return userService.validatePassword(username, rawPassword);
     }
 
 }

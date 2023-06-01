@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -15,6 +17,11 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public void UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     public User registerUser(String username, String password, String email) {
         String encryptedPassword = passwordEncoder.encode(password);
         // Create the user object with the encrypted password
@@ -22,8 +29,11 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public boolean validatePassword(String rawPassword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassword, encodedPassword);
+    public boolean validatePassword(String username, String rawPassword) {
+        User user = userRepository.findByUsername(username);
+        String encryptedPassword = user.getPassword();
+
+        return passwordEncoder.matches(rawPassword, encryptedPassword);
     }
 
 //    public User registerUser(String username, String password, String email) {
