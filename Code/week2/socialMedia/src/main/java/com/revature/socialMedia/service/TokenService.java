@@ -38,6 +38,12 @@ public class TokenService {
         return tokenRepository.save(token);
     }
 
+    public Token deleteTokenByUserID(Long id) {
+        Token token = tokenRepository.findByUser_Id(id);
+        tokenRepository.delete(token);
+        return token;
+    }
+
     private boolean ifTokenExists(String token) {
         return tokenRepository.existsByToken(token);
     }
@@ -50,5 +56,9 @@ public class TokenService {
                 .withClaim("id", user.getId())
                 .sign(Algorithm.HMAC256("secret"));
         return jwt;
+    }
+
+    public Token existsByUserId(Long id) {
+        return tokenRepository.findByUser_Id(id);
     }
 }

@@ -1,10 +1,12 @@
 package com.revature.socialMedia.service;
 
+import com.revature.socialMedia.entity.Token;
 import com.revature.socialMedia.entity.User;
 import com.revature.socialMedia.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.Optional;
 
@@ -15,11 +17,15 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private TokenService tokenService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public void UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenService tokenService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.tokenService = tokenService;
     }
 
     public User registerUser(String username, String password, String email) {
@@ -45,6 +51,19 @@ public class UserService {
         } else {
             return null;
         }
+    }
+
+    public Object logoutUser(String username) {
+        User user = userRepository.findByUsername(username);
+        Long id = user.getId();
+        if (tokenService.existsByUserId(id) == null) {
+            return "User is not logged in";
+        }
+        else {
+            tokenService.deleteTokenByUserID(id);
+            return "User logged out";
+        }
+
     }
 
 //    public User registerUser(String username, String password, String email) {

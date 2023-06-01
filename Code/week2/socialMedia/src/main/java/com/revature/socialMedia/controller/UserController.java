@@ -38,5 +38,10 @@ public class UserController {
          Token token = tokenService.createToken(user);
          return token;
     }
+    @DeleteMapping("/logout")
+    @ResponseBody
+    public Object logoutUser(@RequestParam String username) {
+        return userService.logoutUser(username);
+    }
 
 }
