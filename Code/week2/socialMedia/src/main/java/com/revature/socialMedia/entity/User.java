@@ -24,13 +24,14 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "user")
+    @Size(min = 0)
     private List<Post> post;
 
-    @OneToOne(mappedBy = "followee")
-    private Follow followee;
-
-    @OneToOne(mappedBy = "follower")
-    private Follow follower;
+//    @OneToOne(mappedBy = "followee", fetch = FetchType.LAZY)
+//    private Follow followee;
+//
+//    @OneToOne(mappedBy = "follower", fetch = FetchType.LAZY)
+//    private Follow follower;
 
     public User() {
     }
@@ -56,8 +57,8 @@ public class User {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", post=" + post +
-                ", followee=" + followee +
-                ", follower=" + follower +
+//                ", followee=" + followee +
+//                ", follower=" + follower +
                 '}';
     }
 
@@ -101,20 +102,20 @@ public class User {
         this.post = post;
     }
 
-    public Follow getFollowee() {
-        return followee;
-    }
-
-    public void setFollowee(Follow followee) {
-        this.followee = followee;
-    }
-
-    public Follow getFollower() {
-        return follower;
-    }
-
-    public void setFollower(Follow follower) {
-        this.follower = follower;
-    }
+//    public Follow getFollowee() {
+//        return followee;
+//    }
+//
+//    public void setFollowee(Follow followee) {
+//        this.followee = followee;
+//    }
+//
+//    public Follow getFollower() {
+//        return follower;
+//    }
+//
+//    public void setFollower(Follow follower) {
+//        this.follower = follower;
+//    }
 
 }
