@@ -36,6 +36,17 @@ public class UserService {
         return passwordEncoder.matches(rawPassword, encryptedPassword);
     }
 
+    public User loginUser(String username, String password) {
+        User user = userRepository.findByUsername(username);
+        String encryptedPassword = user.getPassword();
+
+        if (passwordEncoder.matches(password, encryptedPassword)) {
+            return user;
+        } else {
+            return null;
+        }
+    }
+
 //    public User registerUser(String username, String password, String email) {
 //        User user = new User();
 //        user.setUsername(username);
