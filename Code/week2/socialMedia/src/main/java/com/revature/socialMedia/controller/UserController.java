@@ -5,6 +5,7 @@ import com.revature.socialMedia.entity.User;
 import com.revature.socialMedia.service.TokenService;
 import com.revature.socialMedia.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,10 +34,15 @@ public class UserController {
 
     @GetMapping("/login")
     @ResponseBody
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Token loginUser(@RequestParam String username, @RequestParam String password) {
          User user = userService.loginUser(username, password);
-         Token token = tokenService.createToken(user);
-         return token;
+         if (user == null) {
+             return null;
+         } else {
+            Token token = tokenService.createToken(user);
+            return token;
+        }
     }
     @DeleteMapping("/logout")
     @ResponseBody
