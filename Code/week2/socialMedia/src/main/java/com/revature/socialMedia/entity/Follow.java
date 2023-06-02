@@ -62,4 +62,8 @@ public class Follow {
     public void setFollowee(User followee) {
         this.followee = followee;
     }
+
+    public Follow getFollowed() {
+        return this;
+    }
 }

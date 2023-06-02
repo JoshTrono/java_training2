@@ -68,4 +68,12 @@ public class PostController {
         return "Post deleted";
     }
 
+    @GetMapping("/follow")
+    @ResponseBody
+    public List<Post> displayPostsByFollowedUsers(@RequestHeader("Authorization") String token) throws ExecutionException, InterruptedException {
+        token = token.split(" ")[1];
+        List<Post> posts = postService.displayPostsByFollowedUsers(token);
+        return posts;
+    }
+
 }

@@ -14,7 +14,7 @@ public class FollowController {
 
     @PostMapping("/{id}")
     @ResponseBody
-    public String followUser(@RequestParam Long id, @RequestHeader("Authorization") String token) {
+    public String followUser(@PathVariable Long id, @RequestHeader("Authorization") String token) {
         String token2 = token.split(" ")[1];
         followService.followUser(id, token2);
         return "User followed";

@@ -1,6 +1,7 @@
 package com.revature.socialMedia.service;
 
 import com.revature.socialMedia.config.GlobalExceptionHandler;
+import com.revature.socialMedia.entity.Follow;
 import com.revature.socialMedia.entity.Post;
 import com.revature.socialMedia.entity.User;
 import com.revature.socialMedia.repository.PostRepository;
@@ -24,10 +25,14 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private FollowService followService;
 
-    public PostService(TokenService tokenService, PostRepository postRepository) {
+
+    public PostService(TokenService tokenService, PostRepository postRepository, FollowService followService) {
         this.tokenService = tokenService;
         this.postRepository = postRepository;
+        this.followService = followService;
     }
 
     public Post createPost(String content, String token) {
@@ -61,5 +66,16 @@ public class PostService {
             throw new GlobalExceptionHandler.CustomException("You are not authorized to delete this post");
         }
         postRepository.deleteById(id);
+    }
+
+    public List<Post> displayPostsByFollowedUsers(String token) {
+
+        User user = tokenService.getUserFromToken(token);
+        List<Post> posts = new ArrayList<>();
+        List<Follow> users = followService.getFollowedUsers(user.getId());
+        for (Follow follow : users) {
+            posts.addAll(postRepository.findAllByUser_Id(follow.getFollowed().getId()));
+        }
+        return posts;
     }
 }
