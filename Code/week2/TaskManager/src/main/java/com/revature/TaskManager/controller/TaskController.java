@@ -36,4 +36,19 @@ public class TaskController {
         return taskService.saveTask(task);
     }
 
+    @GetMapping("/mytask")
+    @ResponseBody
+    @Cacheable(value = "tasks")
+    public List<Task> getMyTasks(@RequestHeader("Authorization") String token) {
+            return taskService.getMyTasks(token);
+
+    }
+    @PostMapping("/assign")
+    @ResponseBody
+    @CacheEvict(value = "tasks", allEntries = true)
+    public Task assignTask(@RequestParam Long task_Id, @RequestParam String assignTo) {
+        // todo add validation to see if they are a manager
+        return taskService.assignTask(task_Id, assignTo);
+    }
 }
+
