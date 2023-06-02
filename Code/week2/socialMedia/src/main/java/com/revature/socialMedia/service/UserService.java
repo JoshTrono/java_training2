@@ -1,12 +1,18 @@
 package com.revature.socialMedia.service;
 
+import com.revature.socialMedia.config.GlobalExceptionHandler;
+import com.revature.socialMedia.controller.UserController;
 import com.revature.socialMedia.entity.Token;
 import com.revature.socialMedia.entity.User;
 import com.revature.socialMedia.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.Optional;
 
@@ -17,15 +23,11 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private TokenService tokenService;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public void UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenService tokenService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.tokenService = tokenService;
     }
 
     public User registerUser(String username, String password, String email) {
@@ -48,32 +50,30 @@ public class UserService {
 
         if (passwordEncoder.matches(password, encryptedPassword)) {
             return user;
+        } else if (user == null) {
+            throw new GlobalExceptionHandler.CustomException("User not found");
         } else {
-            return null;
+            throw new GlobalExceptionHandler.CustomException("User not found or password incorrect");
         }
     }
 
-    public Object logoutUser(String username) {
+    public Long logoutUser(String username) {
         User user = userRepository.findByUsername(username);
         Long id = user.getId();
-        if (tokenService.existsByUserId(id) == null) {
-            return "User is not logged in";
-        }
-        else {
-            tokenService.deleteTokenByUserID(id);
-            return "User logged out";
-        }
+        return id;
 
     }
 
-//    public User registerUser(String username, String password, String email) {
-//        User user = new User();
-//        user.setUsername(username);
-//        user.setPassword(password);
-//        user.setEmail(email);
-//
-//        return userRepository.save(user);
-//    }
+    public User getUserByUsername(String decoded) {
+        return userRepository.findByUsername(decoded);
+    }
 
-
+    public User getUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return user.get();
+        } else {
+            throw new GlobalExceptionHandler.CustomException("User not found");
+        }
+    }
 }

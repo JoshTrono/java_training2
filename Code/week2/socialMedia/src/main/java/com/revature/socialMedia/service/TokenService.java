@@ -10,11 +10,16 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2Res
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class TokenService {
 
     @Autowired
     private TokenRepository tokenRepository;
+
+    @Autowired
+    private UserService userService;
 
 
 //    @Autowired
@@ -58,7 +63,16 @@ public class TokenService {
         return jwt;
     }
 
+    private String decordeUserFromJwt(String jwt) {
+        return JWT.decode(jwt).getClaim("username").asString();
+    }
+
     public Token existsByUserId(Long id) {
         return tokenRepository.findByUser_Id(id);
+    }
+    public User getUserFromToken(String token) {
+        String decoded = decordeUserFromJwt(token);
+        User user = userService.getUserByUsername(decoded);
+        return user;
     }
 }
