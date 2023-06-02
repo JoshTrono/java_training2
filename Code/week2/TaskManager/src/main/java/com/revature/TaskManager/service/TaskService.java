@@ -15,6 +15,8 @@ public class TaskService {
 
     @Autowired
     private final TaskRepository taskRepository;
+    @Autowired
+    private final UserService userService;
 
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
@@ -25,5 +27,17 @@ public class TaskService {
 
     public Task getTaskById(Long id) {
         return taskRepository.findById(id).orElseThrow(() -> new GlobalExceptionHandler.CustomException("Task not found"));
+    }
+
+    public List<Task> getMyTasks(String token) {
+        //userService.getUserByTokenLong(token);
+        return taskRepository.findAllByAssignedTo(userService.getUserByTokenLong(token));
+
+    }
+
+    public Task assignTask(Long taskId, String assignTo) {
+        Task task = taskRepository.findById(taskId).orElseThrow(() -> new GlobalExceptionHandler.CustomException("Task not found"));
+        task.setAssignedTo(userService.getUserByUsername(assignTo));
+        return taskRepository.save(task);
     }
 }

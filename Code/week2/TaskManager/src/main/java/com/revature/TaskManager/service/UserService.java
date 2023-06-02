@@ -1,5 +1,6 @@
 package com.revature.TaskManager.service;
 
+import com.revature.TaskManager.config.GlobalExceptionHandler;
 import com.revature.TaskManager.entity.Users;
 import lombok.RequiredArgsConstructor;
 import com.revature.TaskManager.repository.UserRepository;
@@ -21,5 +22,12 @@ public class UserService {
     }
     public Users saveUser(Users user) {
         return userRepository.save(user);
+    }
+    public Users getUserByTokenLong (String token) {
+        return (Users) userRepository.findByToken(token).orElseThrow(() -> new GlobalExceptionHandler.CustomException("User not found"));
+    }
+
+    public Users getUserByUsername(String assignTo) {
+        return (Users) userRepository.findByUsername(assignTo).orElseThrow(() -> new GlobalExceptionHandler.CustomException("User not found"));
     }
 }
