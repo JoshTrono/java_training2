@@ -1,5 +1,6 @@
 package com.revature.TaskManager.service;
 
+import com.revature.TaskManager.config.GlobalExceptionHandler;
 import com.revature.TaskManager.entity.Task;
 import com.revature.TaskManager.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +21,9 @@ public class TaskService {
     }
     public Task saveTask(Task task) {
         return taskRepository.save(task);
+    }
+
+    public Task getTaskById(Long id) {
+        return taskRepository.findById(id).orElseThrow(() -> new GlobalExceptionHandler.CustomException("Task not found"));
     }
 }

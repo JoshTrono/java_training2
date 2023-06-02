@@ -4,6 +4,7 @@ import com.revature.TaskManager.entity.Users;
 import lombok.RequiredArgsConstructor;
 import com.revature.TaskManager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class UserService {
     @Autowired
     private final UserRepository userRepository;
 
+    @Cacheable("users")
     public List<Users> getAllUsers() {
         return userRepository.findAll();
     }
