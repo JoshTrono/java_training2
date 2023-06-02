@@ -67,4 +67,13 @@ public class UserService {
     public User getUserByUsername(String decoded) {
         return userRepository.findByUsername(decoded);
     }
+
+    public User getUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return user.get();
+        } else {
+            throw new GlobalExceptionHandler.CustomException("User not found");
+        }
+    }
 }

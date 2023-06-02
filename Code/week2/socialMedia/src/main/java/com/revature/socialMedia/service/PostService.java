@@ -1,5 +1,6 @@
 package com.revature.socialMedia.service;
 
+import com.revature.socialMedia.config.GlobalExceptionHandler;
 import com.revature.socialMedia.entity.Post;
 import com.revature.socialMedia.entity.User;
 import com.revature.socialMedia.repository.PostRepository;
@@ -43,4 +44,22 @@ public class PostService {
     }
 
 
+    public List<Post> displayPostsByUserId(Long id, String token) {
+        String token2 = token.split(" ")[1];
+        User user = tokenService.getUserFromToken(token2);
+        if (user.getId() != id) {
+            throw new GlobalExceptionHandler.CustomException("You are not authorized to view this user's posts");
+        }
+        return postRepository.findAllByUser_Id(id);
+    }
+
+    public void deletePost(Long id, String token) {
+        String token2 = token.split(" ")[1];
+        User user = tokenService.getUserFromToken(token2);
+        Post post = postRepository.findById(id).orElseThrow(() -> new GlobalExceptionHandler.CustomException("Post not found"));
+        if (user.getId() != post.getUser().getId()) {
+            throw new GlobalExceptionHandler.CustomException("You are not authorized to delete this post");
+        }
+        postRepository.deleteById(id);
+    }
 }

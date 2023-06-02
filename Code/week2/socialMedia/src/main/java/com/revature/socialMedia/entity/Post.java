@@ -1,5 +1,6 @@
 package com.revature.socialMedia.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
@@ -8,12 +9,14 @@ import jakarta.transaction.Transactional;
 @Table(name = "posts")
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_seq")
+    @SequenceGenerator(name = "post_seq", sequenceName = "post_seq", allocationSize = 1)
     private Long id;
 
     private String content;
 
     @ManyToOne
+    @JsonBackReference // this is to prevent infinite recursion
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -23,6 +26,9 @@ public class Post {
     }
 
     public Post() {
+    }
+    public Long getUserId() { // this is to get json to return the user id
+        return user.getId();
     }
 
 

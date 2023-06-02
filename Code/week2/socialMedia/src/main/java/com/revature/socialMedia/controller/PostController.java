@@ -1,5 +1,6 @@
 package com.revature.socialMedia.controller;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.revature.socialMedia.entity.Post;
 import com.revature.socialMedia.entity.User;
 import com.revature.socialMedia.service.PostService;
@@ -22,13 +23,12 @@ public class PostController {
 
     @Autowired
     private final PostService postService;
-    @Autowired
-    private final TokenService tokenService;
 
 
-    public PostController(PostService postService, TokenService tokenService) {
+
+    public PostController(PostService postService) {
         this.postService = postService;
-        this.tokenService = tokenService;
+
     }
 
     @PostMapping("/create")
@@ -39,17 +39,33 @@ public class PostController {
         return "Post created";
     }
 
-    @GetMapping("/display")
+    @GetMapping(value = "/display", produces = "application/json")
     @ResponseBody
-    public String displayPosts(@RequestHeader("Authorization") String token) {
+    public List<Post> displayPosts(@RequestHeader("Authorization") String token) {
         String token2 = token.split(" ")[1];
         List<Post> posts = postService.displayPosts(token2);
-        String display = "";
-        // todo fix this to display posts properly
-        for (Post post : posts) {
-            display += post.getContent() + "\n";
-        }
-        return display;
+//        List<Post> post2 = new ArrayList<>();
+//        for (Post post : posts) {
+//            post2.add(post);
+//        }
+//        JsonCreator.Mode mode = JsonCreator.Mode.DELEGATING;
+//        mode.name();
+        return posts;
+    }
+
+    @GetMapping(value = "/display/{id}")
+    @ResponseBody
+    public List<Post> displayPostsByUserId(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        List<Post> posts = postService.displayPostsByUserId(id, token);
+        return posts;
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @ResponseBody
+    public String deletePost(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        token = token.split(" ")[1];
+        postService.deletePost(id, token);
+        return "Post deleted";
     }
 
 }
