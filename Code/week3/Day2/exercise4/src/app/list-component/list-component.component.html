@@ -1,0 +1,9 @@
+<p>list-component works!</p>
+
+<ul>
+    <li *ngFor="let item of items" (click)="sendItem(item)">
+        {{item.id}} - {{item.name}}
+    </li>
+</ul>
+
+<app-item-component [selectedItem]="selectedItem"></app-item-component>
