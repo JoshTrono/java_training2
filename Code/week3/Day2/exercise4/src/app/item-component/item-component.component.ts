@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Item } from '../model/item';
 
 @Component({
@@ -8,4 +8,9 @@ import { Item } from '../model/item';
 })
 export class ItemComponentComponent {
   @Input() selectedItem!: Item | undefined;
+  @Output() closeEvent = new EventEmitter<boolean>();
+
+  sendCloseItem(){
+    this.closeEvent.emit(true);
+  }
 }

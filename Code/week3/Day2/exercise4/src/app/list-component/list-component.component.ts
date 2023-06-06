@@ -22,5 +22,8 @@ export class ListComponentComponent {
     this.selectedItem = item;
   }
   
+  closeItem($event : boolean) {
+    this.selectedItem = undefined;
+  }
 
 }

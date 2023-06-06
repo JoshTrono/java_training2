@@ -6,4 +6,4 @@
     </li>
 </ul>
 
-<app-item-component [selectedItem]="selectedItem"></app-item-component>
+<app-item-component [selectedItem]="selectedItem" (closeEvent)="closeItem($event)"></app-item-component>
