@@ -1,0 +1,13 @@
+<p>input-component works!</p>
+{{phone.name}} -- {{phone.email}} -- {{phone.phone}}
+
+<div>
+    <label for="name">Name</label>
+    <input type="text" id="name" [(ngModel)]="phone.name">
+
+    <label for="email">Email</label>
+    <input type="text" id="email" [(ngModel)]="phone.email">
+
+    <label for="phone">Phone</label>
+    <input type="text" id="phone" [(ngModel)]="phone.phone">
+</div>
