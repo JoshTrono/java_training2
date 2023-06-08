@@ -12,6 +12,8 @@ export class PokemonService {
 
   private pokemon: any;
 
+  
+
   getPokemon(nameOrId: string) {
     // return observable for getting a pokemon
     let observable = this.http.get(`${this.apiUrl}/pokemon/${nameOrId}`);
@@ -28,5 +30,7 @@ export class PokemonService {
   getPokemonList() {
     // return observable for a list of pokemon
     // `${this.apiUrl}/pokemon?limit=100`
+    let observable = this.http.get(`${this.apiUrl}/pokemon?limit=100`);
+    return observable;
   }
 }
